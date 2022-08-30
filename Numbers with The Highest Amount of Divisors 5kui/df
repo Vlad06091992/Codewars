@@ -1,0 +1,17 @@
+ var event = new Event();
+    
+    function f() {
+        f.calls = (f.calls || 0) + 1;
+        f.args = Array.prototype.slice.call(arguments);
+    }
+
+    event.subscribe(f);
+    event.emit(1, 'foo', true);
+    
+    Test.expect(f.calls === 1); // calls a handler
+    Test.assertSimilar(f.args, [1, 'foo', true]); // passes arguments
+    
+    event.unsubscribe(f);
+    event.emit(2);
+    
+    Test.expect(f.calls === 1); //no second call
